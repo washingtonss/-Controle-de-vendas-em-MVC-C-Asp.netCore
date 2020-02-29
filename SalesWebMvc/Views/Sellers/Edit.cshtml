@@ -1,0 +1,72 @@
+﻿@model SalesWebMvc.Models.ViewModels.SellerFormViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<!--<h2>Create</h2> trás o mesmo valor Create-->
+<h2>@ViewData["Title"]</h2>
+
+<!--A mesma função do h2
+<h4>Seller</h4>
+    -->
+<hr />
+
+<div class="row">
+    <!--row me garante toda a tela-->
+    <div class="col-md-4">
+        <!--e aqui me garante um terço da tela. lembrando que o bootstrap é divide em 12 partes-->
+        <form asp-action="Edit">
+            <!--estou criando um input oculto hidden para pegar o id-->
+            <input type="hidden" asp-for="Seller.Id" />
+            <!--Ação Create do método POST-->
+            <div class="form-group">
+                <label asp-for="Seller.Name" class="control-label"></label>
+                <input asp-for="Seller.Name" class="form-control " />
+                <span asp-validation-for="Seller.Name" class="text-danger"></span> <!--Agora vamos fazer a validação para cada campo. sempre lembrando que o que nos habilita a fazer isto aqui é o  trexo de codigo lá em baixo no final da div-->
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Seller.Email" class="control-label"></label>
+                <input asp-for="Seller.Email" class="form-control " />
+                <span asp-validation-for="Seller.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Seller.BirthDate" class="control-label"></label>
+                <input asp-for="Seller.BirthDate" class="form-control " />
+                <span asp-validation-for="Seller.BirthDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Seller.BaseSalary" class="control-label"></label>
+                <input asp-for="Seller.BaseSalary" class="form-control " />
+                <span asp-validation-for="Seller.BaseSalary" class="text-danger"></span>
+            </div>
+
+            <!-- esta div é quem vai montar para gente a caixinha de seleção-->
+            <div class="form-group">
+                <label asp-for="Seller.DepartmentId" class="control-label"></label>
+                <!--nos temos aqui um componente novo que é asp-items ele vai contruir os items de uma caixa de seleção conform as orientações que vc passar-->
+                <!--no caso o SelectList que vai ter três argumentos 1º qual será a fonte de dados desta coleção (Model.Departments) que é a lista de depaartamento lá do viewModel-->
+                <!--2º qual o atributo que vai ser a chave neste caso é o (Id), 3º qual o atributo deste objeto vai aparecer na caixinha, neste caso é o (Name). estes três passos formam asp-items="@(new SelectList(Model.Departments, "Id","Name"))"-->
+                <select asp-for="Seller.DepartmentId" asp-items="@(new SelectList(Model.Departments, "Id","Name"))" class="form-control"></select>
+            </div>
+
+
+
+            <div class="form-group">
+                <!--Lembrando que este formulario daqui passou para a minha regra de negocio SellerService, logo foi criado a inserção (metodo inserir Insert) agora esta inserção esá retornando o parametro(obj)-->
+                <!--vamos criar o botão de cadastrar, para enviar o formulário-->
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!--este codigo abilita as validações por meio do Java Script dentro do Html (View) que estamos -->
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
